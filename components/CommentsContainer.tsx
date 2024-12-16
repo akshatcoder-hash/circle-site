@@ -1,5 +1,5 @@
 import { styled } from "@/stitches.config";
-import Comment from "./comment";
+import Comment from "@/components/Comment";
 import { LightSansSerifText, SemiBoldText, TextDefault } from "./Text";
 
 interface CommentsContainerProps {

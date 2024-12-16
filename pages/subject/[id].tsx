@@ -1,4 +1,4 @@
-import Comment from "@/components/comment";
+import Comment from "@/components/Comment";
 import CreateComment from "@/components/createComment";
 import MarkDownBox from "@/components/MarkdownBox";
 import { StatsBox, StatsItem } from "@/components/Post";
