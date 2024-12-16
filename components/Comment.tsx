@@ -11,28 +11,6 @@ const Comment: React.FC = (props: any) => {
 
   return (
     <CommentContainer css={css}>
-      <Link href={`/post/${postId}`} passHref>
-        <ContentContainer>
-          {/* <Avatar>
-          <AvatarImage
-            src={
-              picture?.original.url ||
-              `https://source.boringavatars.com/marble/25/${handle}`
-            }
-            alt="deno"
-          />
-        </Avatar> */}
-
-          <Editor
-            readOnly
-            value={metadata.content}
-            css={{
-              margin: 0,
-              padding: 0,
-            }}
-          />
-        </ContentContainer>
-      </Link>
 
       <Link href={`/profile/${id}`} passHref>
         <Profile>
