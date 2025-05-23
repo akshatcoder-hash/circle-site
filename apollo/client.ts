@@ -5,7 +5,7 @@ import {
   ApolloLink,
 } from "@apollo/client";
 
-const httpLink = new HttpLink({ uri: "https://api-mumbai.lens.dev" });
+const httpLink = new HttpLink({ uri: "https://api-v2.lens.dev" });
 
 const authLink = new ApolloLink((operation, forward) => {
   const localData = localStorage.getItem("@auth");

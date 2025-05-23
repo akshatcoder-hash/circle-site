@@ -37,7 +37,41 @@ function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
     console.log("Thank you for coming here! @akshatwts");
 
-    if (!window) return;
+    if (typeof window === 'undefined') return;
+
+    // Suppress browser extension errors
+    const handleError = (e: ErrorEvent) => {
+      if (e.message?.includes('chrome.runtime.sendMessage') || 
+          e.message?.includes('Extension ID') ||
+          e.filename?.includes('chrome-extension://') ||
+          e.error?.stack?.includes('chrome-extension://')) {
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+      }
+    };
+
+    const handleUnhandledRejection = (e: PromiseRejectionEvent) => {
+      if (e.reason?.message?.includes('chrome.runtime.sendMessage') ||
+          e.reason?.message?.includes('Extension ID')) {
+        e.preventDefault();
+        return false;
+      }
+    };
+
+    window.addEventListener('error', handleError, true);
+    window.addEventListener('unhandledrejection', handleUnhandledRejection, true);
+
+    // Also suppress console errors from extensions
+    const originalConsoleError = console.error;
+    console.error = (...args) => {
+      const message = args.join(' ');
+      if (message.includes('chrome.runtime.sendMessage') || 
+          message.includes('Extension ID')) {
+        return;
+      }
+      originalConsoleError.apply(console, args);
+    };
 
     // if (window && !window?.ethereum?.isSequence) {
     //   setSequenceProvider({
@@ -51,6 +85,12 @@ function MyApp({ Component, pageProps }: AppProps) {
     //     },
     //   });
     // }
+
+    return () => {
+      window.removeEventListener('error', handleError, true);
+      window.removeEventListener('unhandledrejection', handleUnhandledRejection, true);
+      console.error = originalConsoleError;
+    };
   }, []);
 
   return (
